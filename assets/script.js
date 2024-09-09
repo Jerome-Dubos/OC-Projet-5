@@ -1,8 +1,3 @@
-let bannerImage = document.querySelector(".banner-img")
-let dotSelected = document.querySelector('.dot_selected')
-let arrowLeft = document.querySelector('.arrow_left')
-let arrowRight = document.querySelector('.arrow_right')
-let imageActive = 0
 const slides = [
 	{
 		"image": "./assets/images/slideshow/slide1.jpg",
@@ -21,6 +16,37 @@ const slides = [
 		"tagLine": "Autocollants <span>avec découpe laser sur mesure</span>"
 	}
 ]
+let bannerImage = document.querySelector(".banner-img")
+let bannerText = document.querySelector("#banner p")
+let dotSelected = document.querySelector('.dot_selected')
+let arrowLeft = document.querySelector('.arrow_left')
+let arrowRight = document.querySelector('.arrow_right')
+let imageActive = 0
+
+arrowLeft.addEventListener('click', () => {
+	imageActive--
+	if (imageActive < 0) {
+		imageActive = slides.length - 1
+	}
+	bannerImage.src = slides[imageActive].image
+	bannerText.innerHTML = slides[imageActive].tagLine
+	addSelectedDot()
+})
+
+arrowRight.addEventListener('click', () => {
+	imageActive++
+	if (imageActive >= slides.length) {
+		imageActive = 0
+	}
+	bannerImage.src = slides[imageActive].image
+	bannerText.innerHTML = slides[imageActive].tagLine
+	addSelectedDot()
+})
+
+function addSelectedDot() {
+	document.querySelector('.dot_selected').classList.remove('dot_selected')
+	document.querySelectorAll(".dot")[imageActive].classList.add("dot_selected")
+}
 
 function addDots() {
 	let dots = `<span class="dot"></span>`
@@ -37,29 +63,6 @@ function addDots() {
 			addSelectedDot()
 		})
 	})
-}
-
-arrowLeft.addEventListener('click', () => {
-	imageActive--
-	if (imageActive < 0) {
-		imageActive = slides.length - 1
-	}
-	bannerImage.src = slides[imageActive].image
-	addSelectedDot()
-})
-
-arrowRight.addEventListener('click', () => {
-	imageActive++
-	if (imageActive >= slides.length) {
-		imageActive = 0
-	}
-	bannerImage.src = slides[imageActive].image
-	addSelectedDot()
-})
-
-function addSelectedDot() {
-	document.querySelector('.dot_selected').classList.remove('dot_selected')
-	document.querySelectorAll(".dot")[imageActive].classList.add("dot_selected")
 }
 
 addDots()
