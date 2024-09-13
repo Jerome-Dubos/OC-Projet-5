@@ -23,29 +23,31 @@ let arrowLeft = document.querySelector('.arrow_left')
 let arrowRight = document.querySelector('.arrow_right')
 let imageActive = 0
 
+
 arrowLeft.addEventListener('click', () => {
-	imageActive--
-	if (imageActive < 0) {
-		imageActive = slides.length - 1
-	}
-	bannerImage.src = slides[imageActive].image
-	bannerText.innerHTML = slides[imageActive].tagLine
-	addSelectedDot()
+	changeCarousel(false)
 })
 
 arrowRight.addEventListener('click', () => {
-	imageActive++
+	changeCarousel(true)
+})
+
+function changeCarousel (toRight) {
+	if (toRight) {
+		imageActive++
+	}
+	else {
+		imageActive--
+	}
+	if (imageActive < 0) {
+		imageActive = slides.length - 1
+	}
 	if (imageActive >= slides.length) {
 		imageActive = 0
 	}
 	bannerImage.src = slides[imageActive].image
-	bannerText.innerHTML = slides[imageActive].tagLine
+	replaceTextBanner()
 	addSelectedDot()
-})
-
-function addSelectedDot() {
-	document.querySelector('.dot_selected').classList.remove('dot_selected')
-	document.querySelectorAll(".dot")[imageActive].classList.add("dot_selected")
 }
 
 function addDots() {
@@ -53,16 +55,26 @@ function addDots() {
 	for (let i = 0; i < slides.length; i++) {
 		let dotsSlider = document.querySelector(".dots")
 		dotsSlider.innerHTML += dots
-		let divDot = document.querySelector(".dots .dot")
-		divDot.classList.add("dot_selected")
+		let spanDot = document.querySelector(".dots .dot")
+		spanDot.classList.add("dot_selected")
 	}
 	document.querySelectorAll(".dot").forEach((dot, i) => {
 		dot.addEventListener('click', () => {
 			imageActive = i
 			bannerImage.src = slides[imageActive].image
 			addSelectedDot()
+			replaceTextBanner()
 		})
 	})
+}
+
+function addSelectedDot() {
+	document.querySelector('.dot_selected').classList.remove('dot_selected')
+	document.querySelectorAll(".dot")[imageActive].classList.add("dot_selected")
+}
+
+function replaceTextBanner() {
+	bannerText.innerHTML = slides[imageActive].tagLine
 }
 
 addDots()
