@@ -32,7 +32,7 @@ arrowRight.addEventListener('click', () => {
 	changeCarousel(true)
 })
 
-function changeCarousel (toRight) {
+function changeCarousel(toRight) {
 	if (toRight) {
 		imageActive++
 	}
@@ -45,7 +45,7 @@ function changeCarousel (toRight) {
 	if (imageActive >= slides.length) {
 		imageActive = 0
 	}
-	bannerImage.src = slides[imageActive].image
+	replaceImageBanner()
 	replaceTextBanner()
 	addSelectedDot()
 }
@@ -61,7 +61,7 @@ function addDots() {
 	document.querySelectorAll(".dot").forEach((dot, i) => {
 		dot.addEventListener('click', () => {
 			imageActive = i
-			bannerImage.src = slides[imageActive].image
+			replaceImageBanner()
 			addSelectedDot()
 			replaceTextBanner()
 		})
@@ -75,6 +75,10 @@ function addSelectedDot() {
 
 function replaceTextBanner() {
 	bannerText.innerHTML = slides[imageActive].tagLine
+}
+
+function replaceImageBanner() {
+	bannerImage.src = slides[imageActive].image
 }
 
 addDots()
